@@ -1,21 +1,9 @@
 #!/bin/bash
-set -e  # Stop script if any command fails
 
-# Convert JOB_NAME to lowercase to prevent Docker errors
-LOWER_JOB_NAME=$(echo "$JOB_NAME" | tr '[:upper:]' '[:lower:]')
+docker build -t himanshu519/pro1:$BUILD_ID .
+docker tag himanshu519/pro1:$BUILD_ID himanshu519/pro1:latest
 
-# Build Docker image
-docker build -t $LOWER_JOB_NAME:$BUILD_ID .
+docker push himanshu519/pro1:$BUILD_ID
+docker push himanshu519/pro1:latest
 
-# Tag Docker image
-docker tag $LOWER_JOB_NAME:$BUILD_ID himanshu519/$LOWER_JOB_NAME:$BUILD_ID
-docker tag $LOWER_JOB_NAME:$BUILD_ID himanshu519/$LOWER_JOB_NAME:latest
-
-# Push Docker image to DockerHub
-docker push himanshu519/$LOWER_JOB_NAME:$BUILD_ID
-docker push himanshu519/$LOWER_JOB_NAME:latest
-
-# Remove local images to free space
-docker rmi -f $LOWER_JOB_NAME:$BUILD_ID \
-              himanshu519/$LOWER_JOB_NAME:$BUILD_ID \
-              himanshu519/$LOWER_JOB_NAME:latest
+docker rmi -f himanshu519/pro1:$BUILD_ID himanshu519/pro1:latest
