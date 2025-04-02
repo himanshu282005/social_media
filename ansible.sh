@@ -1,2 +1,2 @@
 cd /root/ansible
-ansible-playbook docker.yaml
+ansible-playbook /home/jenkins/agent12/social_media/docker.yaml
