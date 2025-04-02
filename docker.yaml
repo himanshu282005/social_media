@@ -2,7 +2,7 @@
 - name: Launch Docker Container
   hosts: prod
   vars:
-    docker_image: "himanshu519/Django"
+    docker_image: "himanshu519/django"  # Lowercase name
     docker_tag: "latest"
     container_name: "con1"
     host_port: "8000"
@@ -20,8 +20,11 @@
         name: "{{ container_name }}"
         state: absent
 
-    - name: Remove all Docker images
-      shell: docker rmi -f $(docker images -qa)
+    - name: Remove all Docker images (only if images exist)
+      shell: |
+        if [ "$(docker images -q)" ]; then
+          docker rmi -f $(docker images -qa)
+        fi
       ignore_errors: yes
 
     - name: Pull the Docker image
